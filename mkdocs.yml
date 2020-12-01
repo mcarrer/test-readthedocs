@@ -1,0 +1,8 @@
+site_name: Everyware Linux
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: light green
+  features:
+      - navigation.tabs
