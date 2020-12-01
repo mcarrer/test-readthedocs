@@ -1,0 +1,903 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+    
+    
+      
+        <title>The Key Master - A Pragmatic Approach to SSL, SSH, and YubiKeys - Everyware Linux</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6910b76c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-key-master-a-pragmatic-approach-to-ssl-ssh-and-yubikeys" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="Everyware Linux" class="md-header-nav__button md-logo" aria-label="Everyware Linux">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Everyware Linux
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              The Key Master - A Pragmatic Approach to SSL, SSH, and YubiKeys
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+    
+      
+    
+    <a href=".." class="md-tabs__link md-tabs__link--active">
+      Welcome to MkDocs
+    </a>
+  </li>
+
+      
+        
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Everyware Linux" class="md-nav__button md-logo" aria-label="Everyware Linux">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Everyware Linux
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." class="md-nav__link">
+      Welcome to MkDocs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        The Key Master - A Pragmatic Approach to SSL, SSH, and YubiKeys
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      The Key Master - A Pragmatic Approach to SSL, SSH, and YubiKeys
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-set-up" class="md-nav__link">
+    1. Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-certificate-authority" class="md-nav__link">
+    2. Certificate Authority
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Certificate Authority">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-a-certficate-authority-using-openssl" class="md-nav__link">
+    2.1 Create a Certficate Authority using OpenSSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-alternative-deprecated-create-a-certficate-authority-using-openssh" class="md-nav__link">
+    2.2 (Alternative Deprecated) Create a Certficate Authority using OpenSSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configure-ssh-for-users-certificates" class="md-nav__link">
+    3. Configure SSH for User's Certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configure SSH for User's Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-configure-ssh-at-system-level" class="md-nav__link">
+    3.1 Configure SSH at System Level
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-alternative-configure-ssh-at-user-level" class="md-nav__link">
+    3.2 (Alternative) Configure SSH at User Level
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-users-identity-users-certificate-and-ssh-logins" class="md-nav__link">
+    4. User's Identity, User's Certificate and SSH Logins
+  </a>
+  
+    <nav class="md-nav" aria-label="4. User's Identity, User's Certificate and SSH Logins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-users-identity-users-certificate-using-piv-standard-on-openssh" class="md-nav__link">
+    4.1 User's Identity, User's Certificate using PIV standard on OpenSSH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-alternative-deprecated-users-identity-users-certificate-using-fido2-standard-on-openssh-82" class="md-nav__link">
+    4.2 (Alternative Deprecated) User's Identity, User's Certificate using FIDO2 standard on OpenSSH 8.2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-alternative-deprecated-users-identity-users-certificate-using-openssh" class="md-nav__link">
+    4.3 (Alternative Deprecated) User's Identity, User's Certificate using OpenSSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-web-application-logins" class="md-nav__link">
+    5. Web Application Logins
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Web Application Logins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-jetty-ssl-mutual-anthentication" class="md-nav__link">
+    5.1 Jetty SSL Mutual Anthentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-esf-web-ui-ssl-clinet-authentication-prototype-integration" class="md-nav__link">
+    5.2 ESF Web UI SSL Clinet Authentication Prototype Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-mozilla-firefox" class="md-nav__link">
+    5.3 Mozilla Firefox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-safari-or-chrome-on-osx" class="md-nav__link">
+    5.4 Safari or Chrome on OSX
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-references" class="md-nav__link">
+    6. References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-ssh-references" class="md-nav__link">
+    6.1 SSH References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-jetty-references" class="md-nav__link">
+    6.2 Jetty References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-macos-smart-card" class="md-nav__link">
+    6.3 macOS Smart Card
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../pki/" class="md-nav__link">
+      Pki
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-set-up" class="md-nav__link">
+    1. Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-certificate-authority" class="md-nav__link">
+    2. Certificate Authority
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Certificate Authority">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-a-certficate-authority-using-openssl" class="md-nav__link">
+    2.1 Create a Certficate Authority using OpenSSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-alternative-deprecated-create-a-certficate-authority-using-openssh" class="md-nav__link">
+    2.2 (Alternative Deprecated) Create a Certficate Authority using OpenSSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configure-ssh-for-users-certificates" class="md-nav__link">
+    3. Configure SSH for User's Certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configure SSH for User's Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-configure-ssh-at-system-level" class="md-nav__link">
+    3.1 Configure SSH at System Level
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-alternative-configure-ssh-at-user-level" class="md-nav__link">
+    3.2 (Alternative) Configure SSH at User Level
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-users-identity-users-certificate-and-ssh-logins" class="md-nav__link">
+    4. User's Identity, User's Certificate and SSH Logins
+  </a>
+  
+    <nav class="md-nav" aria-label="4. User's Identity, User's Certificate and SSH Logins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-users-identity-users-certificate-using-piv-standard-on-openssh" class="md-nav__link">
+    4.1 User's Identity, User's Certificate using PIV standard on OpenSSH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-alternative-deprecated-users-identity-users-certificate-using-fido2-standard-on-openssh-82" class="md-nav__link">
+    4.2 (Alternative Deprecated) User's Identity, User's Certificate using FIDO2 standard on OpenSSH 8.2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-alternative-deprecated-users-identity-users-certificate-using-openssh" class="md-nav__link">
+    4.3 (Alternative Deprecated) User's Identity, User's Certificate using OpenSSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-web-application-logins" class="md-nav__link">
+    5. Web Application Logins
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Web Application Logins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-jetty-ssl-mutual-anthentication" class="md-nav__link">
+    5.1 Jetty SSL Mutual Anthentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-esf-web-ui-ssl-clinet-authentication-prototype-integration" class="md-nav__link">
+    5.2 ESF Web UI SSL Clinet Authentication Prototype Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-mozilla-firefox" class="md-nav__link">
+    5.3 Mozilla Firefox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-safari-or-chrome-on-osx" class="md-nav__link">
+    5.4 Safari or Chrome on OSX
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-references" class="md-nav__link">
+    6. References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-ssh-references" class="md-nav__link">
+    6.1 SSH References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-jetty-references" class="md-nav__link">
+    6.2 Jetty References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-macos-smart-card" class="md-nav__link">
+    6.3 macOS Smart Card
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="the-key-master-a-pragmatic-approach-to-ssl-ssh-and-yubikeys">The Key Master - A Pragmatic Approach to SSL, SSH, and YubiKeys</h1>
+<h2 id="1-set-up">1. Set Up</h2>
+<ul>
+<li>macOS: <code>OpenSSH_8.4p1, OpenSSL 1.1.1h  22 Sep 2020</code><ul>
+<li>installed in macOS 10.15.7 with the command: <code>brew update; brew upgrade; brew install openssh</code></li>
+</ul>
+</li>
+<li>raspberryPi: <code>Ubuntu Server 20.04.1 LTS w/ OpenSSH_8.2p1 Ubuntu-4ubuntu0.1, OpenSSL 1.1.1f 31 Mar 2020</code><ul>
+<li>installed with Raspberry Pi Imager and selecting Ubuntu Server 20.04.1</li>
+</ul>
+</li>
+<li>You need a YubiKey with FIDO2 support. Then, using YubiKey Manager, set the FIDO2 PIN<ul>
+<li>Install <a href="https://developers.yubico.com/yubikey-manager/">YubiKey Manager</a>. On macOS <code>brew install ykman</code></li>
+<li><code>ykman fido set-pin</code></li>
+</ul>
+</li>
+<li>You need a YubiKey with PIV support. Using YubiKey Manager Reset the PIV support.
+  Default PIN, PUK, and Management Key will be the following:</li>
+<li>default PIN: 123456</li>
+<li>default PUK: 12345678</li>
+<li>
+<p>default Management key: 010203040506070801020304050607080102030405060708</p>
+</li>
+<li>
+<p>Then, using YubiKey PIV Tool, reset the Card Holder Unique Identifier.</p>
+</li>
+<li><code>yubico-piv-tool -a set-ccc</code></li>
+<li><code>yubico-piv-tool -a set-chuid</code></li>
+</ul>
+<h2 id="2-certificate-authority">2. Certificate Authority</h2>
+<p>We start by creating the private/public key pair for the Certficate Authority. For RSA keys, we can use OpenSSL toolset or the OpenSSH toolset, as the Private Keys are interchangable in PEM format.</p>
+<h3 id="21-create-a-certficate-authority-using-openssl">2.1 Create a Certficate Authority using OpenSSL</h3>
+<p>Use the following commands to generate an RSA private/public key pair using the OpenSSL toolset. It will generate private and public key in PEM format. Then, use <code>ssh-keygen</code> convert the public key into SSH format.</p>
+<pre><code>openssl genrsa -out ca_key 2048
+chmod 400 ca_key
+openssl req -new -x509 -key ca_key -out ca.crt
+openssl rsa -in ca_key -RSAPublicKey_out -out ca_key_pem.pub
+ssh-keygen -i -m PEM -f ca_key_pem.pub &gt; ca_key.pub
+</code></pre>
+<h3 id="22-alternative-deprecated-create-a-certficate-authority-using-openssh">2.2 (Alternative Deprecated) Create a Certficate Authority using OpenSSH</h3>
+<p>Use the following commands to generate an RSA private/public key pair using the OpenSSH toolset. It will generate private key in PEM format and public key in native SSH format. Then, use <code>ssh-keygen</code> convert the SSH public key into interchangeable PEM format.</p>
+<pre><code>ssh-keygen -t rsa -b 2048 -C &quot;CA&quot; -m PEM -f ca_key
+ssh-keygen -e -m PEM -f ca_key.pub &gt; ca_key_pem.pub
+</code></pre>
+<h2 id="3-configure-ssh-for-users-certificates">3. Configure SSH for User's Certificates</h2>
+<p>An SSH sever can be be configured to accept User's Certificate during the login process. Such configuration can be performed at Linux user level or at system level for all Linux users. The following configurations will allow for certificate-based auithentication first, then falling back to password authentication should the first one fail. Please refer to earlier sections in the Security Manual for a  hardened configuration to disable password authentication.</p>
+<h3 id="31-configure-ssh-at-system-level">3.1 Configure SSH at System Level</h3>
+<p>To configure the SSH server to allow for user's certificate logins, copy the <code>ca_key.pub</code> on the path <code>/etc/ssh/ca_key.pub</code>. Then, edit <code>/etc/ssh/sshd_config</code> and add the following lines at the end:</p>
+<pre><code>PubkeyAuthentication yes
+TrustedUserCAKeys /etc/ssh/ca_key.pub
+</code></pre>
+<h3 id="32-alternative-configure-ssh-at-user-level">3.2 (Alternative) Configure SSH at User Level</h3>
+<p>Create an SSH <code>authorized_keys</code> file and indicate that the key should be trusted as a certificate authority to validate proprietary OpenSSH certificates for authenticating as that user. This is achieved by adding the <code>`cert-authority</code> prefix in the <code>authorized_keys</code> file. In this way, all identities signed by the CA will be allowed to login.</p>
+<p>Finally, copy the <code>authorized_keys</code> file to the target server in the home directory of the target Linux account under <code>~/.ssh/authorized_keys</code> path.</p>
+<pre><code>sed 's/^/cert-authority /' ca_key.pub &gt; authorized_keys
+scp authorized_keys &lt;login&gt;@&lt;server&gt;:/home/&lt;login&gt;/.ssh/authorized_keys
+</code></pre>
+<h2 id="4-users-identity-users-certificate-and-ssh-logins">4. User's Identity, User's Certificate and SSH Logins</h2>
+<p>User's identiy can be created on the host computer file system or, using OpenSSH 8.2 or above,it can be an created and stored as a resident key within YubiKey using the FIDO2 standard.</p>
+<h3 id="41-users-identity-users-certificate-using-piv-standard-on-openssh">4.1 User's Identity, User's Certificate using PIV standard on OpenSSH</h3>
+<p>The following commands create a private RSA key in the YubiKey 5C in slot 9a.
+To create the private key you will be asked to enter the YubiKey Management Key and then to touch the key.
+After the first command, the private key will be stored in the YubiKey slot 9a and the public key will be in the file system in PKCS8 format.
+The next command will create a Certificate Signing Request (CSR) to have the pubic key signed by the Certificate Authority.
+The create the CSR, you will be asked to enter the YubiKey PIN and then to touch the key.
+In order to use the User's Certificate to perform a login on ESF prototype Web UI, it is necessary to set the Common Name appropriately. See section 5.2 before continuing with the step below.</p>
+<pre><code>yubico-piv-tool -a generate -s 9a -k --pin-policy=once --touch-policy=always --algorithm=RSA2048 -o user_key_pkcs8.pub
+yubico-piv-tool -a verify-pin -a request-certificate -s 9a -S '/CN=john.doe/OU=everyware_iot/O=eurotech.com/' -i user_key_pkcs8.pub -o user.csr
+</code></pre>
+<p>The following commands will sign the user's CSR with CA and we will then import the resulting X.509 Certificate in the YubiKey 9a slot.</p>
+<pre><code>openssl x509 -req -in user.csr -CA ca.crt -CAkey ca_key -CAcreateserial -out user.crt
+yubico-piv-tool -k -a import-certificate -s 9a -i user.crt
+yubico-piv-tool -a status
+</code></pre>
+<p>Then, the following commands will create an SSH user's certificate by signing the user's public key with the <code>ssh-keygen</code> tool.
+The commands below create a certificate that allows to login as the <code>pi</code> user. If you are not using a Raspberry PI you might want to change the value of the <code>-n</code> argument in the second line.</p>
+<pre><code>ssh-keygen -i -m PKCS8 -f user_key_pkcs8.pub &gt; user_key.pub
+ssh-keygen -s ca_key -I john.doe -n pi user_key.pub
+ssh-keygen -Lf user_key-cert.pub
+</code></pre>
+<p>Finally, create a local SSH config file and then start the SSH connection like the following.
+The following ssh_config option is supported starting from OpenSSH 7.1p2.
+You will be asked to enter the YubiKey PIN and touch the key to proceed.</p>
+<pre><code>echo &quot;Host *\n CertificateFile user_key-cert.pub\n&quot; &gt; ssh_config
+ssh -v -I /usr/local/lib/libykcs11.dylib -F ssh_config  pi@raspberrypi.local
+</code></pre>
+<p>It is also possible to specify the certificate to be used without creating the <code>ssh_config</code> file:</p>
+<pre><code>ssh -v -I /usr/local/lib/libykcs11.dylib -i user_key-cert.pub pi@raspberrypi.local
+</code></pre>
+<p>The log entry similar to the following will be created the server auth.log.</p>
+<pre><code>Oct 27 12:53:35 raspberrypi sshd[14878]: Accepted publickey for pi from fe80::c4d:be64:65a6:4e36%eth0 port 50783 ssh2: RSA-CERT SHA256:H7ixGmsL00ca0B4SnMXDJKIqQH1dhPcmSYgRcbSTlus ID john.doe (serial 0) CA RSA SHA256:tPm6k0CATYBYUkvwSMklwIn+meOT/6DzOTr8EXWrBCk
+Oct 27 12:53:35 raspberrypi sshd[14878]: pam_unix(sshd:session): session opened for user pi by (uid=0)
+Oct 27 12:53:35 raspberrypi systemd-logind[367]: New session c12 of user pi.
+</code></pre>
+<h3 id="42-alternative-deprecated-users-identity-users-certificate-using-fido2-standard-on-openssh-82">4.2 (Alternative Deprecated) User's Identity, User's Certificate using FIDO2 standard on OpenSSH 8.2</h3>
+<p>The following commands create a resident private key in the YubiKey 5C and have it signed by the Certificate Authority.
+To create the resident private key you will be asked to enter the YubiKey FIDO2 PIN and then to touch the key.
+After the commands, the private key will be stored in the YubiKey, which a private key handle and the public key will be in the file system.</p>
+<pre><code>ssh-keygen -t ecdsa-sk -C &quot;john.doe&quot; -O resident -f &quot;user_ecdsa_resident_sk&quot;
+ssh-keygen -s ca_key -I john.doe -n ubuntu user_ecdsa_resident_sk.pub
+</code></pre>
+<p>Finally, login via SSH to the remote server using the resident key.
+You will be asked to confirm user's presence by touching the key during the login process.</p>
+<pre><code>ssh -v -i user_ecdsa_resident_sk &lt;login&gt;@&lt;server&gt;
+</code></pre>
+<p>The log entry similar to the following will be created the server auth.log.</p>
+<pre><code>Oct 20 10:38:14 ubuntu sshd[17633]: Postponed publickey for ubuntu from 192.168.1.158 port 63803 ssh2 [preauth]
+Oct 20 10:38:16 ubuntu sshd[17633]: Accepted publickey for ubuntu from 192.168.1.158 port 63803 ssh2: ECDSA-SK-CERT SHA256:o0uxCRlZwoAdIZMykjJYdDW6U2pGdDAddN00+D3xtSk ID john.doe (serial 0) CA RSA SHA256:H+aAknRDZX6DAk5NCAaQ3d+34aRoZ5Hk6wL3viAH5zo
+Oct 20 10:38:16 ubuntu sshd[17633]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Oct 20 10:38:16 ubuntu systemd-logind[1172]: New session 95 of user ubuntu.
+</code></pre>
+<h3 id="43-alternative-deprecated-users-identity-users-certificate-using-openssh">4.3 (Alternative Deprecated) User's Identity, User's Certificate using OpenSSH</h3>
+<p>Use the following commands to create a user's key and have it signed by the Certificate Authority.</p>
+<pre><code>ssh-keygen -t rsa -b 4096 -C “john.doe” -m PEM -f user_key
+ssh-keygen -s ca_key -I john.doe -n &lt;login&gt; user_key.pub
+</code></pre>
+<p>Finally, login via SSH to the remote server.</p>
+<pre><code>ssh -v -i user_key &lt;login&gt;@&lt;server&gt;
+</code></pre>
+<p>The log entry similar to the following will be created the server auth.log.</p>
+<pre><code>Oct 20 10:31:47 ubuntu sshd[17542]: Accepted publickey for ubuntu from 192.168.1.158 port 63614 ssh2: RSA-CERT SHA256:Fxs8xBUDp7yGthmTAxLVpSlQm+VbXLeeduByz87cjfw ID john.doe (serial 0) CA RSA SHA256:H+aAknRDZX6DAk5NCAaQ3d+34aRoZ5Hk6wL3viAH5zo
+Oct 20 10:31:47 ubuntu sshd[17542]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Oct 20 10:31:47 ubuntu systemd-logind[1172]: New session 94 of user ubuntu.
+</code></pre>
+<h2 id="5-web-application-logins">5. Web Application Logins</h2>
+<h3 id="51-jetty-ssl-mutual-anthentication">5.1 Jetty SSL Mutual Anthentication</h3>
+<p>First, make sure to have configured Jetty for HTTPS access - follow the steps in Jetty
+To configure Jetty for SSL Mutual Authentication, create a new Truststore with the CA.</p>
+<pre><code>keytool -import -alias ca -file ca.crt -storetype JKS -keystore truststore.jks
+</code></pre>
+<p>Then configure Jetty <code>ssl.ini</code> as the following and restart it:</p>
+<pre><code>jetty.sslContext.trustStorePath=etc/truststore.jks
+jetty.sslContext.trustStorePassword=password
+jetty.sslContext.trustStoreType=JKS
+jetty.sslContext.needClientAuth=true
+</code></pre>
+<p>On the Jetty server side, the certificate used by the client to authenticate is available through the following technique:
+https://stackoverflow.com/questions/20056304/in-the-jetty-server-how-can-i-obtain-the-client-certificate-used-when-client-aut</p>
+<h3 id="52-esf-web-ui-ssl-clinet-authentication-prototype-integration">5.2 ESF Web UI SSL Clinet Authentication Prototype Integration</h3>
+<p>A prototype that integrates support for SSL client autentication in Kura/ESF Web UI can be obtained by building branches [1] (Kura) and [2] (ESF).</p>
+<p>This prototype allows to define multiple Web UI roles, each role is identified by a name and a set of permissions that allows to restrict the set of allowed operations.</p>
+<p>At the time of writing the UI sections that allow to create roles and assign permissions is incomplete. A role named "admin" is available out of the box, this role has all permissions.</p>
+<p>The prototype allows to configure zero or more X.509 CA certificates used for SSL client side authentication. The prototype contains a working web ui section that allows to manage CAs.</p>
+<p>In order to perform a successful login, the client must present a certificate chain that has been signed by one of the configured CAs. The Common Name of the leaf certificate of the chain must be set to the role name (e.g "admin").</p>
+<p>In order to add a CA perform the following steps:</p>
+<ol>
+<li>Access to the web ui using password authentication and navigate to the <strong>Security</strong> -&gt; <strong>Certificates List</strong> section.</li>
+<li>Press the <strong>Add</strong> button, select <strong>Https Client Certificate</strong> from the list</li>
+<li>Paste the CA certificate in PEM format in the <strong>Certificate</strong> field (the content of the <code>ca_key_pem.pub</code>).</li>
+</ol>
+<p>[1] https://github.com/nicolatimeus/kura/tree/feature_web-ext
+[2] https://github.com/eurotech/kura_eth/tree/feature_web-ext</p>
+<h3 id="53-mozilla-firefox">5.3 Mozilla Firefox</h3>
+<p>Use the follow instructions to add YKCS11 as a security device to Mozilla Firefox.
+https://developers.yubico.com/yubico-piv-tool/YKCS11/Supported_applications/firefox.html</p>
+<p>Finally, visit the Jetty website where SSL mutual authentication is configured using FireFox.
+You will be prompted to enter the YubiKey PIN and to select an Identify from the YubiKey
+Afer selecting the Identity in the 9a slot and touching the YubiKey will be allowed to login.</p>
+<h3 id="54-safari-or-chrome-on-osx">5.4 Safari or Chrome on OSX</h3>
+<p>Safari and Chrome are using the macOS Keychain to select the SSL Identity.
+The macOS can be extended using the Smart Card support in macOS.
+To achieve this, we need to pair the YubiKey to macOS.
+For Smart Cards to be paired with macOS, the CHUID must be set and the slots 9a and 9c should have a key and a certificate.
+To do so, let's create a key in the 9c slot and load its certificate in the YubiKey.</p>
+<pre><code>yubico-piv-tool -a generate -s 9d -k --pin-policy=once --touch-policy=always --algorithm=RSA2048 -o manager_key_pkcs8.pub
+yubico-piv-tool -a verify-pin -a request-certificate -s 9d -S '/CN=manager/OU=everyware_iot/O=eurotech.com/' -i manager_key_pkcs8.pub -o manager.csr
+openssl x509 -req -in manager.csr -CA ca.crt -CAkey ca_key -CAcreateserial -out manager.crt
+yubico-piv-tool -k -a import-certificate -s 9d -i manager.crt
+yubico-piv-tool -a status
+</code></pre>
+<p>Set a new CHUID</p>
+<pre><code>yubico-piv-tool -aset-chuid
+</code></pre>
+<p>Then, unplug and replug the YubiKey on a Mac running macOS High Sierra or later.
+You will be prompted to pair the Smart Card.
+Enter the YubiKey PIN, touch the card, and the macOS account password.
+At that point the YubiKey paired and can be used by Safari.</p>
+<p>Finally, visit the Jetty website where SSL mutual authentication is configured using Safari.
+You will be prompted to enter the YubiKey PIN and to select an Identify from the YubiKey
+Afer selecting the Identity in the 9a slot and touching the YubiKey will be allowed to login.</p>
+<h2 id="6-references">6. References</h2>
+<h2 id="61-ssh-references">6.1 SSH References</h2>
+<ul>
+<li>https://ruimarinho.gitbooks.io/yubikey-handbook/content/ssh/authenticating-ssh-with-piv-and-pkcs11-client/</li>
+<li>https://ruimarinho.gitbooks.io/yubikey-handbook/content/ssh/authenticating-ssh-via-user-certificates-server/</li>
+<li>https://www.freebsd.org/cgi/man.cgi?ssh_config(5)</li>
+<li>https://www.stavros.io/posts/u2f-fido2-with-ssh/</li>
+<li>https://technotes.seastrom.com/2020/03/27/openssh-82-yubikey.html</li>
+<li>https://www.yubico.com/authentication-standards/fido2/</li>
+<li>https://www.openssh.com/releasman ssh_configenotes.html</li>
+</ul>
+<h2 id="62-jetty-references">6.2 Jetty References</h2>
+<ul>
+<li>https://www.eclipse.org/jetty/documentation/current/jetty-ssl-distribution.html</li>
+<li>https://stackoverflow.com/questions/20056304/in-the-jetty-server-how-can-i-obtain-the-client-certificate-used-when-client-aut</li>
+</ul>
+<h2 id="63-macos-smart-card">6.3 macOS Smart Card</h2>
+<ul>
+<li>https://support.yubico.com/hc/en-us/articles/360016649059-Using-Your-YubiKey-as-a-Smart-Card-in-macOS</li>
+<li>https://support.apple.com/en-us/HT210541</li>
+<li>https://ludovicrousseau.blogspot.com/2019/10/macos-catalina-and-smart-cards-status.html</li>
+<li><code>man SmartCardServices</code></li>
+<li>https://ludovicrousseau.blogspot.com/2018/09/smart-card-integration-in-macos-sierra.html</li>
+<li>https://github.com/OpenSC/OpenSC/issues/1767</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Welcome to MkDocs
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../pki/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Pki
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.fd16492e.min.js"></script>
+      <script src="../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: ['navigation.tabs'],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
